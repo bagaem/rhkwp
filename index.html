@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>여러개 마커에 이벤트 등록하기1</title>
+    
+</head>
+<body>
+<div id="map" style="width:100%;height:350px;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=발급받은 APP KEY를 사용하세요"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+    mapOption = { 
+        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+ 
+// 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
+var positions =[
+{
+content: '<div>블리스버거&카페</div>',
+latlng: new kakao.maps.LatLng(126.9350256,37.46946134)
+},
+{
+content: '<div>에이쓰리바우트커피(A3BOUT COFFEE)</div>',
+latlng: new kakao.maps.LatLng(126.9362082,37.47047264)
+},
+{
+content: '<div>이디야</div>',
+latlng: new kakao.maps.LatLng(126.9390961,37.4702674)
+},
+{
+content: '<div>브이(V)</div>',
+latlng: new kakao.maps.LatLng(126.9377245,37.47029987)
+},
+{
+content: '<div>앨리스(ALICE)</div>',
+latlng: new kakao.maps.LatLng(126.9384939,37.46943627)
+},
+{
+content: '<div>데니스(Denis)</div>',
+latlng: new kakao.maps.LatLng(126.9336545,37.47053864)
+},
+{
+content: '<div>더 바리스타( the Barista)</div>',
+latlng: new kakao.maps.LatLng(126.9394929,37.47029327)
+},
+{
+content: '<div>킹</div>',
+latlng: new kakao.maps.LatLng(126.9366355,37.47061199)
+},
+{
+content: '<div>카페테로</div>',
+latlng: new kakao.maps.LatLng(126.9361932,37.47025111)
+},
+{
+content: '<div>GACHI(가치)</div>',
+latlng: new kakao.maps.LatLng(126.9368081,37.46942639)
+},
+{
+content: '<div>새봄에커피</div>',
+latlng: new kakao.maps.LatLng(126.9368168,37.46643602)
+},
+{
+content: '<div>인아랑</div>',
+latlng: new kakao.maps.LatLng(126.9354097,37.46860988)
+},
+{
+content: '<div>호떡카페</div>',
+latlng: new kakao.maps.LatLng(126.9378131,37.46837558)
+},
+{
+content: '<div>북션</div>',
+latlng: new kakao.maps.LatLng(126.9362688,37.47065279)
+},
+{
+content: '<div>엘가커피 신림고시촌점</div>',
+latlng: new kakao.maps.LatLng(126.9344245,37.47082035)
+},
+{
+content: '<div>똥강아지들</div>',
+latlng: new kakao.maps.LatLng(126.9370744,37.46862292)
+},
+{
+content: '<div>비비추</div>',
+latlng: new kakao.maps.LatLng(126.9364552,37.47452532)
+},
+{
+content: '<div>세로토닌</div>',
+latlng: new kakao.maps.LatLng(126.9353553,37.4719831)
+},
+{
+content: '<div>피그말리온</div>',
+latlng: new kakao.maps.LatLng(126.9350653,37.46886135)
+},
+{
+content: '<div>더랩 대학동점</div>',
+latlng: new kakao.maps.LatLng(126.9363801,37.47045181)
+},
+{
+content: '<div>수 커피볶는집</div>',
+latlng: new kakao.maps.LatLng(126.9344838,37.46894079)
+},
+{
+content: '<div>프랑커스 커피</div>',
+latlng: new kakao.maps.LatLng(126.9389731,37.46986664)
+},
+{
+content: '<div>카페도츠</div>',
+latlng: new kakao.maps.LatLng(126.9372469,37.46937184)
+},
+{
+content: '<div>별까페</div>',
+latlng: new kakao.maps.LatLng(126.9356419,37.47032632)
+},
+{
+content: '<div>카페 빈어홀릭</div>',
+latlng: new kakao.maps.LatLng(126.9367678,37.46923106)
+},
+{
+content: '<div>달콤</div>',
+latlng: new kakao.maps.LatLng(126.9412328,37.47043258)
+},
+{
+content: '<div>모아아트</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>아소(ASSO)</div>',
+latlng: new kakao.maps.LatLng(126.9358522,37.46876175)
+},
+{
+content: '<div>커피이즘</div>',
+latlng: new kakao.maps.LatLng(126.9346618,37.46998479)
+},
+{
+content: '<div>저스틴</div>',
+latlng: new kakao.maps.LatLng(126.9366273,37.46944892)
+},
+{
+content: '<div>카페이야기(cafe eyagi)</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>카페느티나무 동원관점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>칸타빌레</div>',
+latlng: new kakao.maps.LatLng(126.9415384,37.46983777)
+},
+{
+content: '<div>삼성웰스토리(주)서울대대학원웰스토리카페</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>르호봇 (Rehoboth)</div>',
+latlng: new kakao.maps.LatLng(126.9342881,37.46876548)
+},
+{
+content: '<div>자이브</div>',
+latlng: new kakao.maps.LatLng(126.9340318,37.47024279)
+},
+{
+content: '<div>베어문(bearmoon)</div>',
+latlng: new kakao.maps.LatLng(126.9343238,37.46896419)
+},
+{
+content: '<div>one bean</div>',
+latlng: new kakao.maps.LatLng(126.9394929,37.47029327)
+},
+{
+content: '<div>더랩 서울대점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>카페느티나무 음대점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>프린세스카페(PRINCESS CAFE)</div>',
+latlng: new kakao.maps.LatLng(126.9367957,37.4701837)
+},
+{
+content: '<div>피자팩토리(서울대 녹두점)</div>',
+latlng: new kakao.maps.LatLng(126.9394929,37.47029327)
+},
+{
+content: '<div>카페여기</div>',
+latlng: new kakao.maps.LatLng(126.9344838,37.46894079)
+},
+{
+content: '<div>카페리에또아띠</div>',
+latlng: new kakao.maps.LatLng(126.9371142,37.46880425)
+},
+{
+content: '<div>파스쿠찌 서울대점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>버블리 티(Bubbly Tea)</div>',
+latlng: new kakao.maps.LatLng(126.9362197,37.46882382)
+},
+{
+content: '<div>라르고</div>',
+latlng: new kakao.maps.LatLng(126.9363906,37.46656009)
+},
+{
+content: '<div>커피마마</div>',
+latlng: new kakao.maps.LatLng(126.9375708,37.47049144)
+},
+{
+content: '<div>엣홈</div>',
+latlng: new kakao.maps.LatLng(126.9373434,37.46980231)
+},
+{
+content: '<div>뭉클</div>',
+latlng: new kakao.maps.LatLng(126.9363996,37.46834809)
+},
+{
+content: '<div>카페느티나무 자하연점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>COFFEE THE.R(커피 더 알)</div>',
+latlng: new kakao.maps.LatLng(126.9335285,37.4698867)
+},
+{
+content: '<div>카페나루</div>',
+latlng: new kakao.maps.LatLng(126.935027,37.46866592)
+},
+{
+content: '<div>쉼표</div>',
+latlng: new kakao.maps.LatLng(126.9386614,37.46801317)
+},
+{
+content: '<div>아마스빈버블티</div>',
+latlng: new kakao.maps.LatLng(126.9339096,37.4689937)
+},
+{
+content: '<div>버스정류장</div>',
+latlng: new kakao.maps.LatLng(126.9377605,37.46815182)
+},
+{
+content: '<div>AK보드카페</div>',
+latlng: new kakao.maps.LatLng(126.9348039,37.46917759)
+},
+{
+content: '<div>413 project(413 프로젝트)</div>',
+latlng: new kakao.maps.LatLng(126.938105,37.46853088)
+},
+{
+content: '<div>진주버블티</div>',
+latlng: new kakao.maps.LatLng(126.9388903,37.46902153)
+},
+{
+content: '<div>chu♡</div>',
+latlng: new kakao.maps.LatLng(126.93867,37.46991894)
+},
+{
+content: '<div>카페모카</div>',
+latlng: new kakao.maps.LatLng(126.9389047,37.46832579)
+},
+{
+content: '<div>히포커피 서울대2호점</div>',
+latlng: new kakao.maps.LatLng(126.9349877,37.46999298)
+},
+{
+content: '<div>알카페(R cafe)</div>',
+latlng: new kakao.maps.LatLng(126.9359594,37.46851275)
+},
+{
+content: '<div>카페드림(서울대국제대학원점)</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>Bolt&Nut(볼트앤너트)</div>',
+latlng: new kakao.maps.LatLng(126.9380024,37.46974271)
+},
+{
+content: '<div>카페인(Kafe:[in])</div>',
+latlng: new kakao.maps.LatLng(126.9376868,37.46961552)
+},
+{
+content: '<div>olentio(오렌티오)</div>',
+latlng: new kakao.maps.LatLng(126.9344737,37.47040833)
+},
+{
+content: '<div>연유로움</div>',
+latlng: new kakao.maps.LatLng(126.9375478,37.46880061)
+},
+{
+content: '<div>컵 앤 커피</div>',
+latlng: new kakao.maps.LatLng(126.9401206,37.46467633)
+},
+{
+content: '<div>카페띤(cafetin)</div>',
+latlng: new kakao.maps.LatLng(126.935713,37.46708887)
+},
+{
+content: '<div>설빙 신림3호점</div>',
+latlng: new kakao.maps.LatLng(126.9381956,37.47005921)
+},
+{
+content: '<div>파리바게트카페 서울대학교점</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>Le.kim(르킴)</div>',
+latlng: new kakao.maps.LatLng(126.9571391,37.45334804)
+},
+{
+content: '<div>카페오아시아</div>',
+latlng: new kakao.maps.LatLng(126.9447817,37.4675036)
+},
+{
+content: '<div>비노앤빈</div>',
+latlng: new kakao.maps.LatLng(126.9351894,37.46943572)
+}
+];
+
+for (var i = 0; i < positions.length; i ++) {
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng // 마커의 위치
+    });
+
+    // 마커에 표시할 인포윈도우를 생성합니다 
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content // 인포윈도우에 표시할 내용
+    });
+
+    // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
+    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+    kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+}
+
+// 인포윈도우를 표시하는 클로저를 만드는 함수입니다 
+function makeOverListener(map, marker, infowindow) {
+    return function() {
+        infowindow.open(map, marker);
+    };
+}
+
+// 인포윈도우를 닫는 클로저를 만드는 함수입니다 
+function makeOutListener(infowindow) {
+    return function() {
+        infowindow.close();
+    };
+}
+
+/* 아래와 같이도 할 수 있습니다 */
+/*
+for (var i = 0; i < positions.length; i ++) {
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng // 마커의 위치
+    });
+
+    // 마커에 표시할 인포윈도우를 생성합니다 
+    var infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content // 인포윈도우에 표시할 내용
+    });
+
+    // 마커에 이벤트를 등록하는 함수 만들고 즉시 호출하여 클로저를 만듭니다
+    // 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+    (function(marker, infowindow) {
+        // 마커에 mouseover 이벤트를 등록하고 마우스 오버 시 인포윈도우를 표시합니다 
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
+            infowindow.open(map, marker);
+        });
+
+        // 마커에 mouseout 이벤트를 등록하고 마우스 아웃 시 인포윈도우를 닫습니다
+        kakao.maps.event.addListener(marker, 'mouseout', function() {
+            infowindow.close();
+        });
+    })(marker, infowindow);
+}
+*/
+</script>
+</body>
+</html>
